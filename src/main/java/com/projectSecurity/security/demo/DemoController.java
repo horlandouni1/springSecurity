@@ -5,6 +5,7 @@ import com.projectSecurity.security.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class DemoController {
   }
 
   @GetMapping("/allProducts")
+  @PreAuthorize("hasAuthority('USER')")
   public ResponseEntity<List<Product>> getAllProducts(){
     return new ResponseEntity<>(productService.getProducts(),HttpStatus.OK);
   }
@@ -32,6 +34,7 @@ public class DemoController {
   }
 
   @PostMapping("/saveProduct")
+  @PreAuthorize("hasAuthority('ADMIN')")
   public ResponseEntity<Product> save(@RequestBody Product product){
     return new ResponseEntity<>(productService.save(product), HttpStatus.ACCEPTED);
   }
